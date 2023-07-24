@@ -5,6 +5,8 @@ export const GlobalStyle = createGlobalStyle`
 * {
   margin: 0;
   padding: 0;
+  padding-right:5px;
+  padding-left: 5px;
   box-sizing: border-box;
   font-family: "Work Sans", sans-serif;
 }
@@ -157,16 +159,15 @@ input, textarea{
     cursor: pointer;
     }
 
-@media (max-width: ${({ theme }) => theme.media.tab}) {
-    .container {
-    max-width: 130rem;
-    padding: 0 3.2rem;
-  }
-  }
-
-   @media (max-width: ${({ theme }) => theme.media.mobile}) {
-       html {
-      font-size: 50%;
+    @media (max-width: ${({ theme }) => theme.media.tab}) {     
+      .container {     
+      max-width: 130rem;
+      padding: 0 3.2rem;   
+    }   
+    }     
+    @media (max-width: ${({ theme }) => theme.media.mobile}) {        
+      html {       
+        font-size: 50%;     
     }
 
 .grid{
