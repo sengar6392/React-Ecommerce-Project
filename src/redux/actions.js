@@ -10,3 +10,9 @@ export const setView=(value)=>{
         payload:value
     }
 }
+export const sortProducts=(category)=>{
+    return{
+        type:"SORT_PRODUCTS",
+        payload:category
+    }
+}

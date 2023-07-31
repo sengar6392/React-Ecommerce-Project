@@ -1,12 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import { BsFillGridFill, BsList } from "react-icons/bs";
-import { setView } from "../redux/actions";
+import { setView,sortProducts } from "../redux/actions";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 const Sort = () => {
   const dispatch=useDispatch();
   const gridView=useSelector(state=>state.productsReducer.gridView)
+  const filterProducts=useSelector(state=>state.productsReducer.filterProducts)
+  const sorting=(evt)=>{
+    // console.log(evt.target.value)
+    dispatch(sortProducts(evt.target.value))
+  }
   return (
     <Wrapper className="sort-section">
       {/* 1st column  */}
@@ -24,19 +29,20 @@ const Sort = () => {
         </button>
       </div>
       {/* 2nd column  */}
-      {/* <div className="product-data">
-        <p>{`${filter_products.length} Product Available`}</p>
-      </div> */}
+      <div className="product-data">
+        <p>{`${filterProducts.length} Product Available`}</p>
+      </div>
 
       {/* 3rd column  */}
-      {/* <div className="sort-selection">
+      <div className="sort-selection">
         <form action="#">
           <label htmlFor="sort"></label>
           <select
             name="sort"
             id="sort"
             className="sort-selection--style"
-            onClick={sorting}>
+            onClick={(event)=>sorting(event)}
+          >
             <option value="lowest">Price(lowest)</option>
             <option value="#" disabled></option>
             <option value="highest">Price(highest)</option>
@@ -46,7 +52,7 @@ const Sort = () => {
             <option value="z-a">Price(z-a)</option>
           </select>
         </form>
-      </div> */}
+      </div>
     </Wrapper>
   );
 };
