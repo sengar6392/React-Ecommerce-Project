@@ -1,47 +1,36 @@
-import React from 'react'
-import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { searchProducts,filterProducts } from '../redux/actions';
-import { useSelector } from 'react-redux';
+import React from "react";
+import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { searchProducts, filterProducts } from "../redux/actions";
+import { useSelector } from "react-redux";
 import { FaCheck } from "react-icons/fa";
-import { setFilters } from '../redux/actions';
-import { useEffect } from 'react';
+import { setFilters,clearFilters } from "../redux/actions";
+import { useEffect } from "react";
+import FormatPrice from "../Helpers/FormatPrice";
+import { Button } from "../styles/Button";
 const FilterSection = () => {
-  const dispatach=useDispatch();
-  const products=useSelector(state=>state.productsReducer.products)
-  const {category,company,colors}=useSelector(state=>state.productsReducer.filters)
-  const searchBoxHandler=(event)=>{
+  const dispatach = useDispatch();
+  const {categoryData,companyData,colorsData,maxPrice,minPrice} = useSelector((state) => state.productsReducer);
+  const { category, company, colors, price } = useSelector(
+    (state) => state.productsReducer.filters
+  );
+  const searchBoxHandler = (event) => {
     // console.log(event.target.value)
-    dispatach(searchProducts(event.target.value))
-  }
+    dispatach(searchProducts(event.target.value));
+  };
 
-  const getUniqueData=(data,property)=>{
-    let uniqueData;
-    uniqueData=data.map((ele)=>{
-      return ele[property]
-    })
-    if(property==="colors"){
-      uniqueData=uniqueData.flat();
-    }
-    uniqueData=["All",...new Set(uniqueData)]
-    return uniqueData
-  }
-
-  const categoryData=getUniqueData(products,"category")
-  const companyData = getUniqueData(products, "company");
-  const colorsData = getUniqueData(products, "colors");
-  // console.log(colorsData);
-
-  const updateFilterValue=(event)=>{
-    let filterName=event.target.name;
-    let value=event.target.value;
+  const updateFilterValue = (event) => {
+    let filterName = event.target.name;
+    let value = event.target.value;
     // console.log(filterName,value);
-    dispatach(setFilters(filterName,value))
-  }
-  useEffect(()=>{
-    console.log(category,company,colors);
-    dispatach(filterProducts())
-  },[category,company,colors])
+    dispatach(setFilters(filterName, value));
+  };
+
+  useEffect(() => {
+    console.log(category, company, colors,price);
+    dispatach(filterProducts());
+  }, [category, company, colors,price]);
+
   return (
     <Wrapper>
       <div className="filter-search">
@@ -65,7 +54,7 @@ const FilterSection = () => {
                 name="category"
                 value={curElem}
                 onClick={updateFilterValue}
-                // className={curElem === category ? "active" : ""}
+                className={curElem === category ? "active" : ""}
               >
                 {curElem}
               </button>
@@ -99,20 +88,20 @@ const FilterSection = () => {
 
         <div className="filter-color-style">
           {colorsData.map((curColor, index) => {
-            if(curColor==="All"){
-              return(
+            if (curColor === "All") {
+              return (
                 <button
-                key={index}
-                type="button"
-                value={curColor}
-                name="color"
-                // style={{ backgroundColor: curColor}}
-                className="color-all--style"
-                onClick={updateFilterValue}
-              >
-                {curColor}
-              </button>
-              )
+                  key={index}
+                  type="button"
+                  value={curColor}
+                  name="color"
+                  // style={{ backgroundColor: curColor}}
+                  className="color-all--style"
+                  onClick={updateFilterValue}
+                >
+                  {curColor}
+                </button>
+              );
             }
             return (
               <button
@@ -120,19 +109,40 @@ const FilterSection = () => {
                 type="button"
                 value={curColor}
                 name="colors"
-                style={{ backgroundColor: curColor}}
-                className={curColor===colors ? "btnStyle active" : "btnStyle"}
+                style={{ backgroundColor: curColor }}
+                className={curColor === colors ? "btnStyle active" : "btnStyle"}
                 onClick={updateFilterValue}
               >
-                {curColor === colors ? <FaCheck className="checkStyle" /> : null}
+                {curColor === colors ? (
+                  <FaCheck className="checkStyle" />
+                ) : null}
               </button>
             );
           })}
         </div>
+        <div className="filter_price">
+          <h3>Price</h3>
+          <p>
+            <FormatPrice price={price} />
+          </p>
+          <input
+            type="range"
+            min={minPrice}
+            max={maxPrice}
+            value={price}
+            name="price"
+            onChange={updateFilterValue}
+          />
+        </div>
+      </div>
+      <div className="filter-clear">
+        <Button className="btn" onClick={()=>dispatach(clearFilters())}>
+          Clear Filters
+        </Button>
       </div>
     </Wrapper>
-  )
-}
+  );
+};
 
 const Wrapper = styled.section`
   padding: 5rem 0;
@@ -174,7 +184,6 @@ const Wrapper = styled.section`
         border-bottom: 1px solid #000;
         color: ${({ theme }) => theme.colors.btn};
       }
-      
     }
   }
   .checkStyle {

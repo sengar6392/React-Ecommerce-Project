@@ -36,4 +36,9 @@ export const filterProducts=()=>{
         type:"FILTER_PRODUCTS"
     }
 }
+export const clearFilters=()=>{
+    return{
+        type:"CLEAR_FILTERS"
+    }
+}
 
