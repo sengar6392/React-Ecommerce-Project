@@ -16,3 +16,24 @@ export const sortProducts=(category)=>{
         payload:category
     }
 }
+export const searchProducts=(userInput)=>{
+    return{
+        type:"SEARCH_PRODUCTS",
+        payload:userInput
+    }
+}
+export const setFilters=(filterName,value)=>{
+    return{
+        type:"SET_FILTERS",
+        payload:{
+            filterName,
+            value
+        }
+    }
+}
+export const filterProducts=()=>{
+    return{
+        type:"FILTER_PRODUCTS"
+    }
+}
+

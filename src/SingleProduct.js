@@ -25,7 +25,7 @@ const SingleProduct = () => {
       .then((res)=>dispatch(addSingleProduct(res.data)))
   },[])
   const data=useSelector((state)=>state.productsReducer.singleProduct)
-  console.log('data fetched',data );
+  // console.log('data fetched',data );
   const {
     name,
     company,
@@ -37,7 +37,9 @@ const SingleProduct = () => {
     reviews,
     image,
   } = data;
-  
+  const getUniqueProduct=()=>{
+    
+  }
   return (
     <Wrapper>
       <PageNavigation title={name} />
