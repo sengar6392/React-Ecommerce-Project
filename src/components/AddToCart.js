@@ -3,13 +3,18 @@ import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import styled from "styled-components";
 import CartAmountToggle from "./CartAmountToggle";
-import { NavLink } from "react-router-dom";
 import { Button } from "../styles/Button";
 import swal from 'sweetalert';
+import { addToCart } from "../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { products } from "../data";
+
 const AddToCart = ({ product }) => {
-  const { id, colors, stock,name } = product;
+  const {cart}=useSelector(state=>state.cartReducer)
+  const { id, colors, stock,name,image ,price} = product;
   const [curColor, setCurColor] = useState(colors[0]);
   const [amount, setAmount] = useState(1);
+  const dispatch=useDispatch()
 
   const setDecrease = () => {
     amount > 1 ? setAmount(amount - 1) : setAmount(1);
@@ -20,7 +25,9 @@ const AddToCart = ({ product }) => {
         swal("Not more items can be added");
         setAmount(stock)
     }
-    setAmount(amount + 1)
+    else{
+      setAmount(amount + 1)
+    }
   };
   const itemAddedAlert=()=>{
     swal({
@@ -30,6 +37,36 @@ const AddToCart = ({ product }) => {
         button: "OK",
       });
   }
+  const addToCartHandler=()=>{
+    let limitExceeding=false;
+    for(let i=0;i<cart.length;i++){
+      if(cart[i].id===product.id+curColor){
+        let newAmount=cart[i].amount+amount
+        if(newAmount>stock){
+          limitExceeding=true
+
+        }
+      }
+    }
+    if(limitExceeding){
+      swal("Not more items can be added");
+    }
+    else{
+      const product={
+        amount,
+        color:curColor,
+        id:id+curColor,
+        image:image[0].url,
+        max:stock,
+        name,
+        price
+      }
+      dispatch(addToCart(product))
+      itemAddedAlert()
+
+    }
+  }
+  
   return (
     <Wrapper>
       <div className="colors">
@@ -56,7 +93,7 @@ const AddToCart = ({ product }) => {
       />
 
       {/* <NavLink to="/cart"> */}
-        <Button className="btn" onClick={()=>itemAddedAlert()}>Add To Cart</Button>
+        <Button className="btn" onClick={()=>addToCartHandler()}>Add To Cart</Button>
         
       {/* </NavLink> */}
     </Wrapper>

@@ -1,12 +1,66 @@
 import styled from "styled-components";
-
+import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
+import CartItem from "./components/CartItem";
+import { NavLink } from "react-router-dom";
+import { Button } from "./styles/Button";
+import { useEffect } from "react";
+import { clearCart } from "./redux/actions";
+import { useDispatch } from "react-redux";
 const Cart = () => {
-  return (<Wrapper>
-    <div>
-      Cart
-    </div>
-  </Wrapper>);
+  const { cart } = useSelector((state) => state.cartReducer);
+  const dispatch=useDispatch()
+  // useEffect(()=>{
+  //   localStorage.setItem("cartLocalStorage",JSON.stringify(cart))
+  //   console.log('cart updated');
+  // },[cart])
+  const clearCartHandler=()=>{
+    dispatch(clearCart())
+  }
+
+  if (cart.length === 0) {
+    return (
+      <EmptyDiv>
+        <h3>No Cart in Item </h3>
+      </EmptyDiv>
+    );
+  }
+  return (
+    <Wrapper>
+      <div className="container">
+        <div className="cart_heading grid grid-five-column">
+          <p>Item</p>
+          <p className="cart-hide">Price</p>
+          <p>Quantity</p>
+          <p className="cart-hide">Subtotal</p>
+          <p>Remove</p>
+        </div>
+      </div>
+      <hr />
+      <div className="cart-item">
+        {cart.map((curElem) => {
+          return <CartItem key={curElem.id} {...curElem} />;
+        })}
+      </div>
+      <div className="cart-two-button">
+        <NavLink to="/products">
+          <Button> continue Shopping </Button>
+        </NavLink>
+        <Button className="btn btn-clear" onClick={()=>clearCartHandler()}>clear cart</Button>
+      </div>
+    </Wrapper>
+  );
 };
+const EmptyDiv = styled.div`
+  display: grid;
+  place-items: center;
+  height: 50vh;
+
+  h3 {
+    font-size: 4.2rem;
+    text-transform: capitalize;
+    font-weight: 300;
+  }
+`;
 
 const Wrapper = styled.section`
   padding: 9rem 0;
@@ -28,9 +82,11 @@ const Wrapper = styled.section`
     margin-top: 1rem;
   }
   .cart-item {
-    padding: 3.2rem 0;
+    padding: 3.2rem 5rem 3.2rem 1rem;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 3.2rem;
   }
 
@@ -113,7 +169,7 @@ const Wrapper = styled.section`
   }
 
   .remove_icon {
-    font-size: 1.6rem;
+    font-size: 2.6rem;
     color: #e74c3c;
     cursor: pointer;
   }

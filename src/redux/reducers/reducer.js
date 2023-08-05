@@ -1,5 +1,8 @@
+import { useEffect } from "react";
 import { products } from "../../data";
 import { filterProducts } from "../actions";
+import { useSelector } from "react-redux";
+
 const featureProducts = products.filter((ele) => ele.featured === true);
 const getUniqueData = (data, property) => {
   let uniqueData;
@@ -133,3 +136,92 @@ export const productsReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+// const getCartLocalData=()=>{
+//   let cartLocalData=localStorage.getItem("cartLocalStorage");
+//   console.log('cartLocalData',cartLocalData);
+//   if(cartLocalData===[]){
+//     return [];
+
+//   }
+//   else {
+//     return JSON.parse(cartLocalData);
+//   }
+// }
+
+const cartInitialState={
+  cart: []
+}
+export const cartReducer=(state=cartInitialState,action)=>{
+  switch(action.type){
+    case "ADD_TO_CART":
+      let product=action.payload
+      let isPresent=state.cart.find(prod=>prod.id===product.id)
+      if(isPresent){
+        const updatedCart=state.cart.map((item)=>{
+          if(item.id===product.id){
+            let newAmount=item.amount+product.amount
+            return{
+              ...item,
+              amount:newAmount
+            }
+          }
+          else{
+            return item
+          }
+        })
+        return{
+          ...state,
+          cart:updatedCart
+        }
+      }
+      else{
+        return{
+          ...state,
+          cart:[...state.cart,product]
+        }
+      }
+    case "INCREASE_QUANTITY":
+      const updatedList=state.cart.map((item)=>{
+        if(item.id===action.payload){
+          let newAmount=item.amount+1
+          return{
+            ...item,
+            amount:newAmount
+          }
+        }
+      })
+      return{
+        ...state,
+          cart:updatedList
+      }
+      case "DECREASE_QUANTITY":
+        const updatedList2=state.cart.map((item)=>{
+          if(item.id===action.payload){
+            let newAmount=item.amount-1
+            return{
+              ...item,
+              amount:newAmount
+            }
+          }
+        })
+        return{
+          ...state,
+            cart: updatedList2
+        }
+    case "REMOVE_FROM_CART":
+      const updatedCart=state.cart.filter(item=>item.id!==action.payload)
+      return{
+        ...state,
+        cart: updatedCart
+      }
+    case "CLEAR_CART":
+      return{
+        ...state,
+        cart:[]
+      }
+    default:
+      return state
+  }
+}
+
