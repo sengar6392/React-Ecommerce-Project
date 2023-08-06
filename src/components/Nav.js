@@ -4,8 +4,9 @@ import styled from "styled-components";
 import { FiShoppingCart } from "react-icons/fi";
 import { CgMenu, CgClose } from "react-icons/cg";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 const Nav = () => {
-  const {cart}=useSelector(state=>state.cartReducer)
+  const {cart}=useSelector((state)=>state.cartReducer)
   let totalQuantity=0;
   for(let i=0;i<cart.length;i++){
     totalQuantity+=cart[i].amount

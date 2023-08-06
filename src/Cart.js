@@ -6,16 +6,21 @@ import { Button } from "./styles/Button";
 import { useEffect } from "react";
 import { clearCart } from "./redux/actions";
 import { useDispatch } from "react-redux";
+import FormatPrice from "./Helpers/FormatPrice";
 const Cart = () => {
   const { cart } = useSelector((state) => state.cartReducer);
-  const dispatch=useDispatch()
+  let totalPrice=0;
+  for(let i=0;i<cart.length;i++){
+    totalPrice+=cart[i].price*cart[i].amount;
+  }
+  const dispatch = useDispatch();
   // useEffect(()=>{
   //   localStorage.setItem("cartLocalStorage",JSON.stringify(cart))
   //   console.log('cart updated');
   // },[cart])
-  const clearCartHandler=()=>{
-    dispatch(clearCart())
-  }
+  const clearCartHandler = () => {
+    dispatch(clearCart());
+  };
 
   if (cart.length === 0) {
     return (
@@ -34,18 +39,44 @@ const Cart = () => {
           <p className="cart-hide">Subtotal</p>
           <p>Remove</p>
         </div>
-      </div>
-      <hr />
-      <div className="cart-item">
-        {cart.map((curElem) => {
-          return <CartItem key={curElem.id} {...curElem} />;
-        })}
-      </div>
-      <div className="cart-two-button">
-        <NavLink to="/products">
-          <Button> continue Shopping </Button>
-        </NavLink>
-        <Button className="btn btn-clear" onClick={()=>clearCartHandler()}>clear cart</Button>
+        <hr />
+        <div className="cart-item">
+          {cart.map((curElem) => {
+            return <CartItem key={curElem.id} {...curElem} />;
+          })}
+        </div>
+        <div className="cart-two-button">
+          <NavLink to="/products">
+            <Button> continue Shopping </Button>
+          </NavLink>
+          <Button className="btn btn-clear" onClick={() => clearCartHandler()}>
+            clear cart
+          </Button>
+        </div>
+        {/* order total_amount */}
+        <div className="order-total--amount">
+          <div className="order-total--subdata">
+            <div>
+              <p>subtotal:</p>
+              <p>
+                <FormatPrice price={totalPrice} />
+              </p>
+            </div>
+            <div>
+              <p>shipping fee:</p>
+              <p>
+                <FormatPrice price={500000} />
+              </p>
+            </div>
+            <hr />
+            <div>
+              <p>order total:</p>
+              <p>
+                <FormatPrice price={500000 + totalPrice} />
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </Wrapper>
   );
