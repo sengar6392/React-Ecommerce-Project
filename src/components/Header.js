@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <MainHeader>
         <NavLink to="/">
-            <img src="./images/logo.png" alt="my logo png" />
+            <img src="./images/logo.png" alt="my logo png" className='logo'/>
         </NavLink>
         <Nav/>
     </MainHeader>
@@ -21,7 +21,7 @@ const MainHeader = styled.header`
  align-items: center;
  position: relative;
 .logo{
- height: 5rem;
+ height: 18rem;
 }
 @media (max-width:${({theme})=>theme.media.mobile}) { 
 } 
