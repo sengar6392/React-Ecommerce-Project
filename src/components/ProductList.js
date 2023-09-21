@@ -1,9 +1,17 @@
 import React from "react";
 import GridView from "./GridView";
 import ListView from "./ListView";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { useEffect } from "react";
+import { fetchProducts } from "../redux/slice/productsSlice";
+
 const ProductList = () => {
+  // const dispatch = useDispatch()
+  // useEffect(()=>{
+  //   console.log('hiiiiiii');
+  //   dispatch(fetchProducts())
+  // },[])
     const gridView=useSelector(state=>state.productsReducer.gridView)
     const products=useSelector(state=>state.productsReducer.filterProducts)
   if(products.length===0){

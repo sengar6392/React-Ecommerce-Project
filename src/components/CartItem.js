@@ -6,11 +6,11 @@ import {
   decreaseQuantity,
   increaseQuantity,
   removeFromCart,
-} from "../redux/actions";
+} from "../redux/slice/cartSlice";
 import { useDispatch } from "react-redux";
 import swal from "sweetalert";
 
-const CartItem = ({ id, name, image, color, price, amount, max }) => {
+const CartItem = ({ id, title, image, price, amount, max }) => {
   const dispatch = useDispatch();
   const setDecrease = () => {
     if (amount > 1) dispatch(decreaseQuantity(id));
@@ -35,13 +35,13 @@ const CartItem = ({ id, name, image, color, price, amount, max }) => {
           </figure>
         </div>
         <div>
-          <p>{name}</p>
+          <p>{title}</p>
           <div className="color-div">
             <p>color:</p>
-            <div
+            {/* <div
               className="color-style"
               style={{ backgroundColor: color, color: color }}
-            ></div>
+            ></div> */}
           </div>
         </div>
       </div>

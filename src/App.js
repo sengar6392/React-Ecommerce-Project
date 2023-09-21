@@ -12,9 +12,16 @@ import { GlobalStyle } from "./GlobalStyle";
 import { ThemeProvider } from "styled-components";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { Provider } from "react-redux";
-import store from "./redux/store";
+import { useEffect } from "react";
+import { fetchProducts } from "./redux/slice/productsSlice";
+import { useDispatch } from "react-redux";
 const App = () => {
+  const dispatch=useDispatch()
+  useEffect(()=>{
+    console.log('called in app component');
+    dispatch(fetchProducts())
+
+  },[])
   const theme = {
     colors: {
       heading: "rgb(24 24 29)",
@@ -43,7 +50,6 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
       <GlobalStyle/>
-      <Provider store={store}>
         <Header/>
         <Routes>
           <Route path="/" element={<Home/>}/>
@@ -55,7 +61,7 @@ const App = () => {
           <Route path="*" element={<ErrorPage/>}/>
         </Routes>
         <Footer/>
-        </Provider>
+
       </BrowserRouter>
     </ThemeProvider>
   );

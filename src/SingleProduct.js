@@ -9,51 +9,50 @@ import FormatPrice from "./Helpers/FormatPrice";
 import { MdSecurity } from "react-icons/md";
 import { TbTruckDelivery, TbReplace } from "react-icons/tb";
 import { useSelector } from "react-redux";
-import { addSingleProduct } from "./redux/actions";
+
 import { useDispatch } from "react-redux";
-import { products } from "./data";
-import axios from "axios";
 import Star from "./components/Star";
 import AddToCart from "./components/AddToCart";
-const API = "https://api.pujakaitem.com/api/products";
+import { addSingleProduct } from "./redux/slice/productsSlice";
+import { useState } from "react";
+
 const SingleProduct = () => {
+  
   const { id } = useParams();
-  const dispatch=useDispatch();
+  const [product,setProduct]= useState(null)
+  const {products}=useSelector(state=>state.productsReducer)
   useEffect(()=>{
-    axios
-      .get(`${API}?id=${id}`)
-      .then((res)=>dispatch(addSingleProduct(res.data)))
+    products.forEach(element => {
+      if(element.id==id){
+        setProduct(element)
+      }
+    });
   },[])
-  const data=useSelector((state)=>state.productsReducer.singleProduct)
-  // console.log('data fetched',data );
+  console.log('product',product );
+  if(product===null) return (<h1>Loading.....</h1>)
   const {
-    name,
-    company,
+    title,
+    brand,
     price,
     description,
-    category,
     stock,
-    stars,
-    reviews,
-    image,
-  } = data;
-  const getUniqueProduct=()=>{
-    
-  }
+    rating,
+    images,
+  } = product;
   return (
     <Wrapper>
-      <PageNavigation title={name} />
+      <PageNavigation title={title} />
       <Container className="container">
         <div className="grid grid-two-column">
-          {/* product Images  */}
+  
           <div className="product_images">
-            <MyImage imgs={image}/>
+            <MyImage imgs={images}/>
           </div>
 
-          {/* product dAta  */}
+      
           <div className="product-data">
-            <h2 style={{color:"black"}}>{name}</h2>
-            <Star stars={stars} reviews={reviews}/>
+            <h2 style={{color:"black"}}>{title}</h2>
+            <Star stars={rating}/>
             <p className="product-data-price">
               MRP:
               <del>
@@ -95,11 +94,11 @@ const SingleProduct = () => {
                 ID : <span> {id} </span>
               </p>
               <p>
-                Brand :<span> {company} </span>
+                Brand :<span> {brand} </span>
               </p>
             </div>
             <hr />
-            {stock && <AddToCart product={data}/>}
+            {stock && <AddToCart product={product}/>}
           </div>
         </div>
       </Container>

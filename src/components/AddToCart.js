@@ -5,14 +5,12 @@ import styled from "styled-components";
 import CartAmountToggle from "./CartAmountToggle";
 import { Button } from "../styles/Button";
 import swal from 'sweetalert';
-import { addToCart } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { products } from "../data";
+import { addToCart } from "../redux/slice/cartSlice";
 
 const AddToCart = ({ product }) => {
   const {cart}=useSelector(state=>state.cartReducer)
-  const { id, colors, stock,name,image ,price} = product;
-  const [curColor, setCurColor] = useState(colors[0]);
+  const { id, stock,title,images ,price} = product;
   const [amount, setAmount] = useState(1);
   const dispatch=useDispatch()
 
@@ -40,7 +38,7 @@ const AddToCart = ({ product }) => {
   const addToCartHandler=()=>{
     let limitExceeding=false;
     for(let i=0;i<cart.length;i++){
-      if(cart[i].id===product.id+curColor){
+      if(cart[i].id===product.id+title){
         let newAmount=cart[i].amount+amount
         if(newAmount>stock){
           limitExceeding=true
@@ -54,11 +52,10 @@ const AddToCart = ({ product }) => {
     else{
       const product={
         amount,
-        color:curColor,
-        id:id+curColor,
-        image:image[0].url,
+        id:id+title,
+        image:images[0],
         max:stock,
-        name,
+        title,
         price
       }
       dispatch(addToCart(product))
@@ -69,7 +66,7 @@ const AddToCart = ({ product }) => {
   
   return (
     <Wrapper>
-      <div className="colors">
+      {/* <div className="colors">
         <p>
           Color:
           {colors.map((color, index) => {
@@ -85,7 +82,7 @@ const AddToCart = ({ product }) => {
             );
           })}
         </p>
-      </div>
+      </div> */}
       <CartAmountToggle
         amount={amount}
         setDecrease={setDecrease}

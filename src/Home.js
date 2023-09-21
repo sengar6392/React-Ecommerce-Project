@@ -6,14 +6,12 @@ import { useSelector } from 'react-redux'
 import FeatureProduct from './components/FeatureProducts'
 const Home = () => {
   const data={
-    name:"Thapa Store"
+    name:"Shopping Store"
   }
-  const products=useSelector((state)=>state)
-  console.log(products);
   return (
     <>
     <HomeSection myData={data}/>
-    <FeatureProduct/>
+    {/* <FeatureProduct/> */}
     <Trusted/>
     <Services/>
     </>

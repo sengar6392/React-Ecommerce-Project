@@ -4,7 +4,8 @@ import CartItem from "./components/CartItem";
 import { NavLink } from "react-router-dom";
 import { Button } from "./styles/Button";
 import { useEffect } from "react";
-import { clearCart } from "./redux/actions";
+// import { clearCart } from "./redux/actions";
+import { clearCart } from "./redux/slice/cartSlice";
 import { useDispatch } from "react-redux";
 import FormatPrice from "./Helpers/FormatPrice";
 const Cart = () => {

@@ -1,13 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { BsFillGridFill, BsList } from "react-icons/bs";
-import { setView,sortProducts } from "../redux/actions";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { setView, sortProducts } from "../redux/slice/productsSlice";
 const Sort = () => {
   const dispatch=useDispatch();
   const gridView=useSelector(state=>state.productsReducer.gridView)
-  const filterProducts=useSelector(state=>state.productsReducer.filterProducts)
+  const {filterProducts}=useSelector(state=>state.productsReducer)
+
   const sorting=(evt)=>{
     // console.log(evt.target.value)
     dispatch(sortProducts(evt.target.value))

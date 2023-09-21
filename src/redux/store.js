@@ -1,6 +1,10 @@
-import { createStore,applyMiddleware, compose } from "redux";
-import { rootReducer } from "./reducers";
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+import { configureStore } from "@reduxjs/toolkit";
+import productsReducer from "./slice/productsSlice";
+import cartReducer from "./slice/cartSlice";
 
-const store=createStore(rootReducer, composeEnhancers(applyMiddleware()))
-export default store
+export const store=configureStore({
+    reducer:{
+        productsReducer,
+        cartReducer,
+    }
+})

@@ -2,8 +2,13 @@ import styled from "styled-components";
 import FilterSection from "./components/FilterSection";
 import ProductList from "./components/ProductList";
 import Sort from "./components/Sort";
+import { fetchProducts } from "./redux/slice/productsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const Products = () => {
+  const {isLoading,products}=useSelector(state=>state.productsReducer)
+  if(isLoading!==false && products.length!==0)
   return (
     <Wrapper>
       <div className="container grid grid-filter-column">

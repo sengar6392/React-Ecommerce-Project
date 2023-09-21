@@ -1,35 +1,32 @@
 import React from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { searchProducts, filterProducts } from "../redux/actions";
 import { useSelector } from "react-redux";
-import { FaCheck } from "react-icons/fa";
-import { setFilters,clearFilters } from "../redux/actions";
 import { useEffect } from "react";
 import FormatPrice from "../Helpers/FormatPrice";
 import { Button } from "../styles/Button";
+import { searchProducts,filterProducts,setFilters,clearFilters, fetchProducts } from "../redux/slice/productsSlice";
 const FilterSection = () => {
-  const dispatach = useDispatch();
-  const {categoryData,companyData,colorsData,maxPrice,minPrice} = useSelector((state) => state.productsReducer);
-  const { category, company, colors, price } = useSelector(
+  const dispatch = useDispatch();
+  const {categoryData,brandData,maxPrice,minPrice} = useSelector((state) => state.productsReducer);
+  const { category, company, price } = useSelector(
     (state) => state.productsReducer.filters
   );
   const searchBoxHandler = (event) => {
-    // console.log(event.target.value)
-    dispatach(searchProducts(event.target.value));
+    dispatch(searchProducts(event.target.value));
   };
 
   const updateFilterValue = (event) => {
     let filterName = event.target.name;
     let value = event.target.value;
-    // console.log(filterName,value);
-    dispatach(setFilters(filterName, value));
+    console.log(filterName,value);
+    dispatch(setFilters({filterName, value}));
   };
 
   useEffect(() => {
-    console.log(category, company, colors,price);
-    dispatach(filterProducts());
-  }, [category, company, colors,price]);
+    console.log(category, company,price);
+    dispatch(filterProducts());
+  }, [category, company,price]);
 
   return (
     <Wrapper>
@@ -72,7 +69,7 @@ const FilterSection = () => {
             className="filter-company--select"
             onClick={updateFilterValue}
           >
-            {companyData.map((curElem, index) => {
+            {brandData.map((curElem, index) => {
               return (
                 <option key={index} value={curElem} name="company">
                   {curElem}
@@ -86,7 +83,7 @@ const FilterSection = () => {
       <div className="filter-colors colors">
         <h3>Colors</h3>
 
-        <div className="filter-color-style">
+        {/* <div className="filter-color-style">
           {colorsData.map((curColor, index) => {
             if (curColor === "All") {
               return (
@@ -119,7 +116,7 @@ const FilterSection = () => {
               </button>
             );
           })}
-        </div>
+        </div> */}
         <div className="filter_price">
           <h3>Price</h3>
           <p>
@@ -136,7 +133,7 @@ const FilterSection = () => {
         </div>
       </div>
       <div className="filter-clear">
-        <Button className="btn" onClick={()=>dispatach(clearFilters())}>
+        <Button className="btn" onClick={()=>dispatch(clearFilters())}>
           Clear Filters
         </Button>
       </div>

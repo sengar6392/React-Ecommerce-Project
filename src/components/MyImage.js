@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const MyImage = ({ imgs = [{ url: "" }] }) => {
   const [mainImage, setMainImage] = useState(imgs[0]);
-
+  console.log('imgs',imgs);
   return (
     <Wrapper>
       <div className="grid grid-four-column">
@@ -12,8 +12,8 @@ const MyImage = ({ imgs = [{ url: "" }] }) => {
           return (
             <figure key={index}>
               <img
-                src={curElm.url}
-                alt={curElm.filename}
+                src={curElm}
+                alt={curElm}
                 className="box-image--style"
                 onMouseOver={() => setMainImage(curElm)}
               />
@@ -24,7 +24,7 @@ const MyImage = ({ imgs = [{ url: "" }] }) => {
       {/* 2nd column  */}
 
       <div className="main-screen">
-        <img src={mainImage.url} alt={mainImage.filename} />
+        <img src={mainImage} alt={mainImage} />
       </div>
     </Wrapper>
   );
