@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import styled from "styled-components";
@@ -10,6 +10,7 @@ import { addToCart } from "../redux/slice/cartSlice";
 
 const AddToCart = ({ product }) => {
   const {cart}=useSelector(state=>state.cartReducer)
+  
   const { id, stock,title,images ,price} = product;
   const [amount, setAmount] = useState(1);
   const dispatch=useDispatch()

@@ -113,6 +113,7 @@ export const productsSlice = createSlice({
       const {products}=action.payload
       state.products = products;
       state.filterProducts = products;
+      state.featureProducts=[products[0],products[1],products[2]]
       const getUniqueData = (data, property) => {
         let uniqueData;
         uniqueData = data.map((ele) => {

@@ -1,24 +1,25 @@
 import styled from "styled-components";
-import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 import CartItem from "./components/CartItem";
 import { NavLink } from "react-router-dom";
 import { Button } from "./styles/Button";
 import { useEffect } from "react";
-// import { clearCart } from "./redux/actions";
 import { clearCart } from "./redux/slice/cartSlice";
 import { useDispatch } from "react-redux";
 import FormatPrice from "./Helpers/FormatPrice";
+
 const Cart = () => {
   const { cart } = useSelector((state) => state.cartReducer);
+  useEffect(()=>{
+    localStorage.setItem("cart",JSON.stringify(cart))
+    console.log('added to local storage');
+  },[cart])
+  console.log('cart',cart);
   let totalPrice=0;
   for(let i=0;i<cart.length;i++){
     totalPrice+=cart[i].price*cart[i].amount;
   }
   const dispatch = useDispatch();
-  // useEffect(()=>{
-  //   localStorage.setItem("cartLocalStorage",JSON.stringify(cart))
-  //   console.log('cart updated');
-  // },[cart])
   const clearCartHandler = () => {
     dispatch(clearCart());
   };
@@ -54,7 +55,7 @@ const Cart = () => {
             clear cart
           </Button>
         </div>
-        {/* order total_amount */}
+
         <div className="order-total--amount">
           <div className="order-total--subdata">
             <div>

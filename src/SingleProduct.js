@@ -1,4 +1,4 @@
-import useFetch  from "react-fetch-hook";
+
 import { useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
@@ -9,11 +9,8 @@ import FormatPrice from "./Helpers/FormatPrice";
 import { MdSecurity } from "react-icons/md";
 import { TbTruckDelivery, TbReplace } from "react-icons/tb";
 import { useSelector } from "react-redux";
-
-import { useDispatch } from "react-redux";
 import Star from "./components/Star";
 import AddToCart from "./components/AddToCart";
-import { addSingleProduct } from "./redux/slice/productsSlice";
 import { useState } from "react";
 
 const SingleProduct = () => {
@@ -22,6 +19,7 @@ const SingleProduct = () => {
   const [product,setProduct]= useState(null)
   const {products}=useSelector(state=>state.productsReducer)
   useEffect(()=>{
+    console.log('hiiiiiiiiiiiiiih',products,id);
     products.forEach(element => {
       if(element.id==id){
         setProduct(element)
@@ -29,7 +27,7 @@ const SingleProduct = () => {
     });
   },[])
   console.log('product',product );
-  if(product===null) return (<h1>Loading.....</h1>)
+  if(product!==null){
   const {
     title,
     brand,
@@ -103,7 +101,7 @@ const SingleProduct = () => {
         </div>
       </Container>
     </Wrapper>
-  );
+  )};
 };
 
 const Wrapper = styled.section`

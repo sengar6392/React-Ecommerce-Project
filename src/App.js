@@ -14,7 +14,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { useEffect } from "react";
 import { fetchProducts } from "./redux/slice/productsSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 const App = () => {
   const dispatch=useDispatch()
   useEffect(()=>{
@@ -22,6 +22,7 @@ const App = () => {
     dispatch(fetchProducts())
 
   },[])
+  const {products,isLoading}= useSelector(state=>state.productsReducer)
   const theme = {
     colors: {
       heading: "rgb(24 24 29)",
@@ -45,7 +46,7 @@ const App = () => {
       tab: "998px",
     },
   };
-  
+  if(isLoading!==false && products.length!==0)
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
