@@ -10,7 +10,10 @@ import { addToCart } from "../redux/slice/cartSlice";
 
 const AddToCart = ({ product }) => {
   const {cart}=useSelector(state=>state.cartReducer)
-  
+  useEffect(()=>{
+    localStorage.setItem("cart",JSON.stringify(cart))
+    console.log('added to local storage');
+  },[cart])
   const { id, stock,title,images ,price} = product;
   const [amount, setAmount] = useState(1);
   const dispatch=useDispatch()

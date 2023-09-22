@@ -53,12 +53,12 @@ export const productsSlice = createSlice({
       }
       if (action.payload === "a-z") {
         filter_products = state.filterProducts.sort((a, b) =>
-          a.name.localeCompare(b.name)
+          a.title.localeCompare(b.title)
         );
       }
       if (action.payload === "z-a") {
         filter_products = state.filterProducts.sort((a, b) =>
-          b.name.localeCompare(a.name)
+          b.title.localeCompare(a.title)
         );
       }
 

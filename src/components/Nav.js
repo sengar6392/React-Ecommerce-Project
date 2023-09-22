@@ -61,8 +61,10 @@ const Nav = () => {
       }
 
       .cart-total--item {
-        width: 2.4rem;
-        height: 2.4rem;
+        min-width: 2.4rem;
+        min-height: 2.4rem;
+        padding: 0.3rem;
+        font-size: 1.5rem;
         position: absolute;
         background-color: #000;
         color: #000;
@@ -70,7 +72,7 @@ const Nav = () => {
         display: grid;
         place-items: center;
         top: -20%;
-        left: 70%;
+        left: 60%;
         background-color: ${({ theme }) => theme.colors.helper};
       }
     }
