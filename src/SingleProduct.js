@@ -19,7 +19,6 @@ const SingleProduct = () => {
   const [product,setProduct]= useState(null)
   const {products}=useSelector(state=>state.productsReducer)
   useEffect(()=>{
-    console.log('hiiiiiiiiiiiiiih',products,id);
     products.forEach(element => {
       if(element.id==id){
         setProduct(element)

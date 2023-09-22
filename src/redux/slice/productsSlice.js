@@ -67,7 +67,7 @@ export const productsSlice = createSlice({
     searchProducts: (state, action) => {
       const userInput = action.payload;
       const searchList = state.products.filter((prod) =>
-        prod.name.toLowerCase().includes(userInput)
+        prod.title.toLowerCase().includes(userInput)
       );
 
       state.filterProducts = searchList;
